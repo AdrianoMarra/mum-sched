@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	
+<head th:replace="fragments/header :: head"></head>
+ 
+<body>
+	<nav th:replace="fragments/menu :: menu"></nav>
+	
+	<div id="mainpanel">
+		<th:block layout:fragment="content"></th:block>
+	</div>
+	
+	<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

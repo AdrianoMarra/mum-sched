@@ -1,16 +1,12 @@
 <!DOCTYPE html>
-<html layout:decorator="shared/homelayout"
+<html layout:decorator="layouts/homelayout"
 	xmlns:th="http://www.thymeleaf.org">
 <body>
-	<th:block layout:fragment="header">
-		<link rel="stylesheet" type="text/css"
-			th:href="@{/css/studentlist.css}" />
-	</th:block>
 	<th:block layout:fragment="content">
-		<h2>Student List</h2>
+		<h2>Students List</h2>
 		<br />
-		<a href="/student">Create a student</a>
-		<a href="/" id="linkBackHome">Back to home</a>
+
+		<a href="/student" class="btn btn-default">New student</a>
 		<br />
 		<br />
 		<table class="table table-striped">
