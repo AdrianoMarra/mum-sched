@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import mum.sched.model.Student;
-import mum.sched.service.impl.StudentServiceImpl;
+import mum.sched.service.StudentService;
 
 @Controller
 public class StudentController {
 	@Autowired
-	private StudentServiceImpl studentServiceImp;
+	private StudentService studentService;
 
 	@RequestMapping(value = "/students", method = RequestMethod.GET)
 	public ModelAndView students() {
-		List<Student> students = studentServiceImp.findAll();
+		List<Student> students = studentService.findAll();
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("students", students);
 		modelAndView.setViewName("student/list");
@@ -41,19 +41,19 @@ public class StudentController {
 			model.addAttribute("errors", result.getAllErrors());
 			return "student/edit";
 		}
-		student = studentServiceImp.save(student);
+		student = studentService.save(student);
 		return "redirect:/students";
 	}
 
 	@RequestMapping(value = "/student/{id}", method = RequestMethod.GET)
 	public String view(@PathVariable Long id, Model model) {
-		model.addAttribute("student", studentServiceImp.findOne(id).get());
+		model.addAttribute("student", studentService.findOne(id).get());
 		return "student/edit";
 	}
 
 	@RequestMapping(value = "/student/delete/{id}", method = RequestMethod.GET)
 	public String delete(@PathVariable Long id, Model model) {
-		studentServiceImp.delete(id);
+		studentService.delete(id);
 		return "redirect:/students";
 	}
 }
