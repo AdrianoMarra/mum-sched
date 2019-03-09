@@ -1,4 +1,4 @@
-package mum.sched.service;
+package mum.sched.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import mum.sched.model.Student;
 import mum.sched.repository.StudentRepository;
+import mum.sched.service.StudentService;
 
 @Service("studentService")
 public class StudentServiceImpl implements StudentService {
