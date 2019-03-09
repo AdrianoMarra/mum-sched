@@ -3,10 +3,8 @@ package mum.sched.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import mum.sched.model.Student;
+import mum.sched.model.Course;
 
-
-
-@Repository("studentRepository")
-public interface StudentRepository extends JpaRepository<Student, Long> {
+@Repository("courseRepository")
+public interface CourseRepository extends JpaRepository<Course, Long> {
 }
