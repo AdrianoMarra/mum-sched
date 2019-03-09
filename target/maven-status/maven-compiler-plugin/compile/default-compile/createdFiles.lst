@@ -1,0 +1,7 @@
+mum/sched/repository/StudentRepository.class
+mum/sched/controller/HomeController.class
+mum/sched/MumSchedApplication.class
+mum/sched/model/Student.class
+mum/sched/service/StudentService.class
+mum/sched/controller/StudentController.class
+mum/sched/service/impl/StudentServiceImpl.class

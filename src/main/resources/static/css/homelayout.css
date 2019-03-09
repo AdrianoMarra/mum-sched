@@ -5,3 +5,18 @@
 .validation-message {
 	color: red;
 }
+
+.nav-item .active {
+	color: rgba(0,0,0,.7);
+}
+
+.btn {
+	color: #fff;
+	background-color: #007bff;
+}
+
+.btn:hover {
+    color: #007bff;
+    border: solid #007bff 1px;
+    background-color: white;
+}
