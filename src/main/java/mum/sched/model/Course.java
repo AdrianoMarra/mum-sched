@@ -25,8 +25,13 @@ public class Course {
     private String name;
 
     @Column(name = "code")
-    @NotEmpty(message = "*Please provide the code")
     private String code;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "course_level")
+    private String course_level;
 
 
     public Long getId() {
@@ -52,4 +57,23 @@ public class Course {
     public void setCode(String code) {
         this.code = code;
     }
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCourse_level() {
+        return course_level;
+    }
+
+    public void setCourse_level(String course_level) {
+        this.course_level = course_level;
+    }
+
+
 }

@@ -1,61 +1,75 @@
 package mum.sched.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import javax.validation.Valid;
+
+import mum.sched.expection.*;
 
 import mum.sched.service.impl.CourseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import mum.sched.model.Course;
 import mum.sched.service.impl.CourseServiceImpl;
 
-@Controller
+@RestController
+@RequestMapping("/api")
 public class CourseController {
     @Autowired
     private CourseServiceImpl courseServiceImpl;
 
-    @RequestMapping(value = "/courses", method = RequestMethod.GET)
-    public ModelAndView students() {
-        List<Course> course = courseServiceImpl.findAll();
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("courses", course);
-        modelAndView.setViewName("course/list");
-        return modelAndView;
+    @GetMapping("/courses")
+    public List<Course> getCourses() {
+        return courseServiceImpl.findAll();
     }
 
-    @RequestMapping(value = "/course", method = RequestMethod.GET)
-    public String create(Model model) {
-        model.addAttribute("course", new Course());
-        return "course/edit";
+    @GetMapping("/courses/{id}")
+    public Optional<Course> getOneCourse(@PathVariable Long id) {
+        return courseServiceImpl.findOne(id);
     }
 
-    @RequestMapping(value = "/course", method = RequestMethod.POST)
-    public String edit(@Valid @ModelAttribute("course") Course course, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("errors", result.getAllErrors());
-            return "course/edit";
-        }
-        course = courseServiceImpl.save(course);
-        return "redirect:/courses";
+    @PostMapping("/courses")
+    public Course createUser(@Valid @RequestBody Course course) {
+        return courseServiceImpl.save(course);
     }
 
-    @RequestMapping(value = "/course/{id}", method = RequestMethod.GET)
-    public String view(@PathVariable Long id, Model model) {
-        model.addAttribute("course", courseServiceImpl.findOne(id).get());
-        return "course/edit";
+    @PutMapping("/courses/{id}")
+    public ResponseEntity<Course> updateCourse(
+            @PathVariable(value = "id") Long courseID, @Valid @RequestBody Course updateCourse)
+            throws ResourceNotFoundException {
+        Course course =
+                courseServiceImpl
+                        .findOne(courseID)
+                        .orElseThrow(() -> new ResourceNotFoundException("Course not found on : " + courseID));
+
+        course.setName(updateCourse.getName());
+        course.setCode(updateCourse.getCode());
+        course.setCourse_level(updateCourse.getCourse_level());
+        course.setDescription(updateCourse.getDescription());
+        final Course updateCourseFinal = courseServiceImpl.save(course);
+        return ResponseEntity.ok(updateCourseFinal);
     }
 
-    @RequestMapping(value = "/course/delete/{id}", method = RequestMethod.GET)
-    public String delete(@PathVariable Long id, Model model) {
-        courseServiceImpl.delete(id);
-        return "redirect:/course";
+
+    @DeleteMapping("/courses/{id}")
+    public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long courseID) throws Exception {
+        Course course =
+                courseServiceImpl
+                        .findOne(courseID)
+                        .orElseThrow(() -> new ResourceNotFoundException("Course not found on :: " + courseID));
+        courseServiceImpl.delete(courseID);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
     }
+
+
 }
