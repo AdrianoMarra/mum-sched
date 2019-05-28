@@ -1,2 +1,2 @@
 # mum-sched
-Application for managing students registration
+Proof of concept for managing students registration
